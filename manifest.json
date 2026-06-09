@@ -1,0 +1,40 @@
+{
+  "manifest_version": "0.2",
+  "name": "agy-fleet-mcp",
+  "version": "0.1.0",
+  "description": "FastMCP 3.2 fleet bridge — sync MCP servers into Antigravity CLI and Gemini config paths.",
+  "author": {
+    "name": "Sandra Schieder"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "src/agy_fleet_mcp/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "agy_fleet_mcp", "--stdio"],
+      "env": {
+        "PYTHONUNBUFFERED": "1",
+        "FASTMCP_BANNER": "0",
+        "FASTMCP_UPDATE_CHECK": "0"
+      }
+    }
+  },
+  "user_config": {
+    "fleet_registry_path": {
+      "type": "string",
+      "title": "Fleet registry JSON",
+      "description": "Path to fleet-registry.json",
+      "default": "D:/Dev/repos/mcp-central-docs/operations/fleet-registry.json"
+    }
+  },
+  "tools": [
+    { "name": "agy_fleet_help", "description": "Overview vs agy-mcp on PyPI" },
+    { "name": "agy_fleet_list_locations", "description": "Known MCP config paths" },
+    { "name": "agy_fleet_list_servers", "description": "List servers in a config source" },
+    { "name": "agy_fleet_diff", "description": "Diff two config locations" },
+    { "name": "agy_fleet_sync", "description": "Sync MCP servers between configs" },
+    { "name": "agy_fleet_validate", "description": "Validate server commands and agy binary" },
+    { "name": "agy_fleet_registry", "description": "Read fleet-registry.json" },
+    { "name": "agy_fleet_apply_tool_budget", "description": "Cap enabled servers for Antigravity" }
+  ]
+}

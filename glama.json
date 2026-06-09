@@ -1,0 +1,39 @@
+{
+  "$schema": "https://glama.ai/schemas/mcp.json",
+  "name": "agy-fleet-mcp",
+  "version": "0.1.0",
+  "description": "FastMCP 3.2 fleet bridge for Antigravity CLI MCP config sync, diff, validate, and tool-budget management.",
+  "author": "Sandra Schieder",
+  "license": "MIT",
+  "language": "python",
+  "framework": "fastmcp",
+  "type": "mcp_server",
+  "status": "beta",
+  "transport": ["stdio", "http"],
+  "keywords": ["agy", "antigravity", "fleet", "mcp", "fastmcp", "config-sync", "gemini"],
+  "categories": ["Developer Tools", "AI Agents"],
+  "homepage": "https://github.com/sandraschi/agy-fleet-mcp",
+  "repository": {
+    "url": "https://github.com/sandraschi/agy-fleet-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "github",
+      "identifier": "sandraschi/agy-fleet-mcp",
+      "transport": {
+        "type": "stdio",
+        "command": "uv",
+        "args": ["run", "python", "-m", "agy_fleet_mcp", "--stdio"]
+      }
+    },
+    {
+      "registryType": "github",
+      "identifier": "sandraschi/agy-fleet-mcp",
+      "transport": {
+        "type": "http",
+        "url": "http://127.0.0.1:10825/mcp"
+      }
+    }
+  ]
+}

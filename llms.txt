@@ -1,0 +1,9 @@
+# agy-fleet-mcp
+
+Fleet MCP config bridge for Antigravity CLI (agy). Sync/diff/validate Cursor↔Gemini MCP JSON. NOT PyPI agy-mcp.
+Port: 10825 HTTP MCP (/mcp, /health). Stdio: uv run python -m agy_fleet_mcp --stdio
+
+Full reference: llms-full.txt
+Docs: README.md, INSTALL.md, PRD.md, docs/README.md
+
+Tools (8): agy_fleet_help, agy_fleet_list_locations, agy_fleet_list_servers, agy_fleet_diff, agy_fleet_sync, agy_fleet_validate, agy_fleet_registry, agy_fleet_apply_tool_budget

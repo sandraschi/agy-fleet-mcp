@@ -1,0 +1,94 @@
+# agy-fleet-mcp — full LLM reference
+
+> Long-form index for agents. Tight index: `llms.txt`.
+
+## Identity
+
+- **Name:** agy-fleet-mcp
+- **Version:** 0.1.0
+- **Stack:** FastMCP 3.2+, Python 3.11+, uv, pydantic-settings
+- **Role:** Config plane — MCP JSON sync for Antigravity CLI
+- **Not:** agy-mcp (PyPI) — that exposes agy as MCP tools
+- **Transports:** stdio (default), HTTP (`--serve`, `/mcp` on **10825**)
+- **Changelog:** `CHANGELOG.md`
+
+## Tool surface (8 tools)
+
+| Tool | Purpose |
+|------|---------|
+| `agy_fleet_help` | Package vs agy-mcp overview |
+| `agy_fleet_list_locations` | Known config paths + exists flags |
+| `agy_fleet_list_servers` | Servers in a source (enabled/disabled counts) |
+| `agy_fleet_diff` | Set diff between two locations |
+| `agy_fleet_sync` | Merge/replace sync; `dry_run` default true |
+| `agy_fleet_validate` | Command validation + `agy` binary status |
+| `agy_fleet_registry` | Read fleet-registry.json summary |
+| `agy_fleet_apply_tool_budget` | Cap enabled servers (default 50) |
+
+## Config location IDs
+
+`cursor` | `gemini` | `antigravity_cli` | `antigravity_ide` | `project`
+
+| ID | Default path |
+|----|--------------|
+| cursor | `~/.cursor/mcp.json` |
+| gemini | `~/.gemini/config/mcp_config.json` |
+| antigravity_cli | `~/.gemini/antigravity-cli/mcp_config.json` |
+| antigravity_ide | `~/.gemini/antigravity/mcp_config.json` |
+| project | `./.antigravitycli/mcp_config.json` |
+
+## Recommended workflow
+
+1. `agy_fleet_list_locations`
+2. `agy_fleet_diff(left="cursor", right="gemini")`
+3. `agy_fleet_sync(source="cursor", target="gemini", dry_run=true)`
+4. User confirms → `dry_run=false`
+5. `agy_fleet_apply_tool_budget(source="gemini", max_enabled=50, priority=[...])`
+
+## Environment (prefix `AGY_FLEET_MCP_`)
+
+- `HOST` — default `127.0.0.1`
+- `PORT` — default `10825` (was 10793; avatar-mcp uses 10793)
+- `CURSOR_MCP_PATH`, `GEMINI_MCP_PATH`, `ANTIGRAVITY_CLI_MCP_PATH`, `ANTIGRAVITY_IDE_MCP_PATH`
+- `FLEET_REGISTRY_PATH` — fleet catalog JSON
+- `MAX_ENABLED_SERVERS` — default 50
+- `BACKUP_ON_WRITE` — default true
+
+## HTTP endpoints
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /health` | `{"status":"ok","service":"agy-fleet-mcp"}` |
+| `POST /mcp` | Streamable HTTP MCP |
+
+## MCPB / Claude Desktop
+
+- `manifest.json` v0.2 + `assets/icon.png` + `assets/prompts/*`
+- Pack: `just mcpb-pack`
+- `.mcpbignore` excludes `docs/`, `skills/`, `llms*.txt`
+
+## Skills
+
+- `skill://agy-fleet` — `skills/agy-fleet/SKILL.md`
+
+## Fleet integrations
+
+- **fleet-registry.json** — `agy_fleet_registry`
+- **fleet-agent-mcp** — optional HTTP at `http://127.0.0.1:10825/mcp`
+- **notebooklm-fleet-mcp** — separate; sync via Cursor config, not this tool
+
+## Safety rules for agents
+
+- Always `dry_run=true` first on `agy_fleet_sync` and `agy_fleet_apply_tool_budget`
+- Never sync to `cursor` target without explicit user request
+- Read diff output before write
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Port 10825 in use | `AGY_FLEET_MCP_PORT` |
+| Wrong file written | Check `source`/`target` IDs |
+| Too many tools in agy | `agy_fleet_apply_tool_budget` |
+
+Full: `docs/TROUBLESHOOTING.md`

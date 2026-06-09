@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "description": "Structured tool-usage examples for agy-fleet-mcp.",
+  "examples": [
+    {"id": "help-1", "user_goal": "Understand vs agy-mcp", "tools": ["agy_fleet_help"], "args_hint": {}},
+    {"id": "loc-1", "user_goal": "See config paths", "tools": ["agy_fleet_list_locations"], "args_hint": {}},
+    {"id": "list-1", "user_goal": "Servers in Cursor", "tools": ["agy_fleet_list_servers"], "args_hint": {"source": "cursor"}},
+    {"id": "list-2", "user_goal": "Servers in Gemini", "tools": ["agy_fleet_list_servers"], "args_hint": {"source": "gemini"}},
+    {"id": "diff-1", "user_goal": "Cursor vs Gemini drift", "tools": ["agy_fleet_diff"], "args_hint": {"left": "cursor", "right": "gemini"}},
+    {"id": "sync-dry-1", "user_goal": "Preview merge", "tools": ["agy_fleet_sync"], "args_hint": {"source": "cursor", "target": "gemini", "mode": "merge", "dry_run": true}},
+    {"id": "sync-write-1", "user_goal": "Apply merge", "tools": ["agy_fleet_sync"], "args_hint": {"source": "cursor", "target": "gemini", "dry_run": false}, "note": "Only after user confirms dry-run"},
+    {"id": "sync-filter-1", "user_goal": "Sync only arxiv + calibre", "tools": ["agy_fleet_sync"], "args_hint": {"include": ["arxiv-mcp", "calibre-mcp"], "dry_run": true}},
+    {"id": "validate-1", "user_goal": "Check Cursor config", "tools": ["agy_fleet_validate"], "args_hint": {"source": "cursor"}},
+    {"id": "registry-1", "user_goal": "Fleet catalog", "tools": ["agy_fleet_registry"], "args_hint": {}},
+    {"id": "budget-dry-1", "user_goal": "Preview 50-tool cap", "tools": ["agy_fleet_apply_tool_budget"], "args_hint": {"source": "gemini", "max_enabled": 50, "dry_run": true}},
+    {"id": "budget-pri-1", "user_goal": "Cap with priorities", "tools": ["agy_fleet_apply_tool_budget"], "args_hint": {"priority": ["calibre-mcp", "arxiv-mcp"], "max_enabled": 50, "dry_run": true}},
+    {"id": "project-1", "user_goal": "Project-local agy config", "tools": ["agy_fleet_sync"], "args_hint": {"target": "project", "workspace": "D:/Dev/repos/my-app", "dry_run": true}},
+    {"id": "chain-1", "user_goal": "Full onboarding", "sequence": ["agy_fleet_list_locations", "agy_fleet_diff", "agy_fleet_sync", "agy_fleet_apply_tool_budget"]},
+    {"id": "error-1", "user_goal": "Bad sync recovery", "note": "Restore from .bak backup next to target JSON"},
+    {"id": "http-1", "user_goal": "HTTP MCP", "note": "start.ps1 -Serve → :10825/mcp"},
+    {"id": "stdio-1", "user_goal": "Claude stdio", "note": "uv run python -m agy_fleet_mcp --stdio"},
+    {"id": "skill-1", "user_goal": "Follow skill", "note": "skill://agy-fleet"},
+    {"id": "mcpb-1", "user_goal": "Desktop bundle", "note": "just mcpb-pack"}
+  ]
+}

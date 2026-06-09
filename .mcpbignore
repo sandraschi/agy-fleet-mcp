@@ -1,0 +1,32 @@
+# Logic/Dev Bloat
+.venv/
+node_modules/
+__pycache__/
+.ruff_cache/
+.pytest_cache/
+tests/
+
+# Discovery & Fleet Metadata
+glama.json
+llms.txt
+llms-full.txt
+.git/
+.github/
+.vscode/
+skills/
+
+# Build Artifacts
+dist/
+build/
+*.mcpb
+
+# Docs not required in bundle
+docs/
+INSTALL.md
+PRD.md
+AGENTS.md
+STATUS.md
+justfile
+install-mcp.ps1
+start.ps1
+.env.example
