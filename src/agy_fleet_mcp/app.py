@@ -10,7 +10,7 @@ from agy_fleet_mcp.config import load_settings
 from agy_fleet_mcp.server import mcp
 from agy_fleet_mcp.startup_probe import run_startup_probes
 
-mcp_http = mcp.http_app(path="/mcp")
+mcp_http = mcp.http_app(path="/")
 
 
 @asynccontextmanager
