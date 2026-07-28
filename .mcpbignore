@@ -13,20 +13,13 @@ llms-full.txt
 .git/
 .github/
 .vscode/
-skills/
 
 # Build Artifacts
 dist/
 build/
 *.mcpb
 
-# Docs not required in bundle
-docs/
-INSTALL.md
-PRD.md
-AGENTS.md
-STATUS.md
-justfile
-install-mcp.ps1
-start.ps1
-.env.example
+# Non-MCP components (webapp, native, scripts)
+native/
+web_sota/
+scripts/

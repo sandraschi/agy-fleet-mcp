@@ -16,7 +16,7 @@ Returns all known paths with `exists` flags.
 
 | Param | Type | Default | Description |
 |-------|------|---------|-------------|
-| `source` | enum | `cursor` | Config source ID |
+| `source` | enum | `cursor` | Config source ID (`cursor`, `gemini`, `antigravity_cli`, `antigravity_ide`, `project`, `opencode`) |
 | `workspace` | str | `""` | Project root |
 
 Returns `servers` summaries: name, command, disabled, transport hints.

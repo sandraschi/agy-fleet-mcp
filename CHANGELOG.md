@@ -1,3 +1,13 @@
+
+## [Unreleased] — 2026-06-14
+
+### Added
+- Tauri 2.0 native wrapper with `bundle.resources` + `std::process::Command`
+- PyInstaller frozen backend embedded in NSIS installer
+- CUA-NSIS smoke test (`scripts/cua-smoke.py`, `scripts/cua-nsis-config.json`)
+- `just cua-nsis-test` recipe
+- Tauri CORS: `tauri://localhost` origins for WebView API access
+- `GET /api/v1/diagnostics` endpoint for CUA verification
 # Changelog
 
 All notable changes to **agy-fleet-mcp** are documented here.
@@ -34,3 +44,4 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Notes
 - **Not** [agy-mcp](https://pypi.org/project/agy-mcp/) on PyPI — opposite direction (config plane, not agy-as-tool).
 - Stdio is the primary transport for Cursor; HTTP optional for fleet-agent.
+

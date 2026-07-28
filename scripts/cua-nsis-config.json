@@ -1,0 +1,14 @@
+{
+    "product_name": "AGY Fleet MCP",
+    "install_dir": "%LOCALAPPDATA%\\AGY Fleet MCP",
+    "operator_exe": "agy-fleet-mcp-native.exe",
+    "backend_process_names": ["agy-fleet-mcp-native", "agy-fleet-mcp-backend"],
+    "backend_port": 10825,
+    "health_path": "/api/v1/health",
+    "diagnostics_path": "/api/v1/diagnostics",
+    "feature_smoke_path": "/api/v1/system/info",
+    "window_title_re": "AGY Fleet MCP",
+    "nsis_glob": "native/target/release/bundle/nsis/AGY Fleet MCP_*_x64-setup.exe",
+    "bridge_ok_text": "REST bridge reachable",
+    "uninstall_registry_filter": "*AGY Fleet MCP*"
+}

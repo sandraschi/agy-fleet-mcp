@@ -29,7 +29,7 @@ Fleet MCP **config bridge** for **Antigravity CLI** (`agy`) — sync Cursor flee
 
 ## Features
 
-- **Config sync** — Cursor → Gemini / Antigravity / project-local JSON
+- **Config sync** — Cursor → Gemini / Antigravity / OpenCode / project-local JSON
 - **Diff & validate** — preview drift; check commands and `agy` on PATH
 - **Tool budget** — disable servers beyond Antigravity's ~50 enabled limit
 - **Fleet registry** — read `fleet-registry.json` catalog from MCP

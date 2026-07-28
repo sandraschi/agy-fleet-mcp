@@ -1,0 +1,35 @@
+{
+  "manifest_version": "0.2",
+  "name": "agy-fleet-mcp",
+  "version": "0.1.0",
+  "description": "FastMCP 3.2 fleet bridge — sync and manage MCP servers for Antigravity CLI (agy) and Gemini config",
+  "author": { "name": "Sandra Schieder" },
+  "server": {
+    "type": "python",
+    "entry_point": "run_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["run","--directory","${PWD}","run_server.py"],
+      "env": {
+        "PYTHONPATH": "${PWD}/src",
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  },
+  "tools": [
+    { "name": "health", "description": "health" },
+    { "name": "agy_fleet_help", "description": "agy_fleet_help" },
+    { "name": "agy_fleet_list_locations", "description": "agy_fleet_list_locations" },
+    { "name": "agy_fleet_list_servers", "description": "agy_fleet_list_servers" },
+    { "name": "agy_fleet_diff", "description": "agy_fleet_diff" },
+    { "name": "agy_fleet_sync", "description": "agy_fleet_sync" },
+    { "name": "agy_fleet_validate", "description": "agy_fleet_validate" },
+    { "name": "agy_fleet_registry", "description": "agy_fleet_registry" },
+    { "name": "agy_fleet_apply_tool_budget", "description": "agy_fleet_apply_tool_budget" },
+    { "name": "_settings_cursor", "description": "_settings(cursor)" },
+    { "name": "_settings_gemini", "description": "_settings(gemini)" },
+    { "name": "_settings_antigravity_cli", "description": "_settings(antigravity_cli)" },
+    { "name": "_settings_antigravity_ide", "description": "_settings(antigravity_ide)" },
+    { "name": "_settings_project", "description": "_settings(project)" }
+  ]
+}
