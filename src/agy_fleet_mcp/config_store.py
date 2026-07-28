@@ -12,7 +12,8 @@ from typing import Any
 def read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
-    text = path.read_text(encoding="utf-8")
+    # utf-8-sig strips a leading BOM if present (common on Windows-edited mcp.json).
+    text = path.read_text(encoding="utf-8-sig")
     if not text.strip():
         return {}
     data = json.loads(text)

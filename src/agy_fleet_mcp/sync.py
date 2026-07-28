@@ -5,16 +5,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Literal
 
+from agy_fleet_mcp.config import Settings
+from agy_fleet_mcp.config_formats import build_config_for_location, extract_servers_for_location
 from agy_fleet_mcp.config_store import (
-    extract_servers,
     normalize_servers,
     read_json,
     server_summary,
-    wrap_servers,
     write_json,
 )
 from agy_fleet_mcp.paths import resolve_location
-from agy_fleet_mcp.config import Settings
 
 SyncMode = Literal["merge", "replace"]
 
@@ -75,14 +74,19 @@ def sync_configs(
     source_loc = resolve_location(source, settings, workspace)
     target_loc = resolve_location(target, settings, workspace)
 
-    if source_loc.kind != "mcp_json" or target_loc.kind != "mcp_json":
-        raise ValueError("Sync requires MCP JSON sources and targets (not registry)")
+    if source_loc.kind not in ("mcp_json", "opencode_json") or target_loc.kind not in ("mcp_json", "opencode_json"):
+        raise ValueError("Sync requires MCP config sources and targets (not registry)")
 
     if not source_loc.exists:
         raise FileNotFoundError(f"Source config not found: {source_loc.path}")
 
-    source_servers = normalize_servers(extract_servers(read_json(source_loc.path)))
-    target_servers = normalize_servers(extract_servers(read_json(target_loc.path))) if target_loc.exists else {}
+    source_data = read_json(source_loc.path)
+    target_data = read_json(target_loc.path) if target_loc.exists else {}
+
+    source_servers = normalize_servers(extract_servers_for_location(source_loc.id, source_data))
+    target_servers = (
+        normalize_servers(extract_servers_for_location(target_loc.id, target_data)) if target_loc.exists else {}
+    )
 
     incoming = _filter_servers(
         source_servers,
@@ -105,7 +109,8 @@ def sync_configs(
 
     write_result: dict[str, Any] | None = None
     if not dry_run:
-        backup_path = write_json(target_loc.path, wrap_servers(result_servers), backup=settings.backup_on_write)
+        payload = build_config_for_location(target_loc.id, servers=result_servers, original=target_data)
+        backup_path = write_json(target_loc.path, payload, backup=settings.backup_on_write)
         write_result = {"written": str(target_loc.path), "backup": str(backup_path) if backup_path else None}
 
     return {

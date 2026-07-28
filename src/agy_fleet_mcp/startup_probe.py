@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 
 from agy_fleet_mcp.config import Settings
 from agy_fleet_mcp.paths import list_locations

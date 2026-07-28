@@ -41,7 +41,7 @@ def validate_server(name: str, entry: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(env, dict):
         issues.append("env must be an object")
 
-    for key, value in (env.items() if isinstance(env, dict) else []):
+    for key, value in env.items() if isinstance(env, dict) else []:
         if isinstance(value, str) and ("${" in value or value.startswith("~")):
             issues.append(f"env '{key}' may need expansion")
 

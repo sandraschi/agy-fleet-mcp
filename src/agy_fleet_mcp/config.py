@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     gemini_mcp_path: Path = Path.home() / ".gemini" / "config" / "mcp_config.json"
     antigravity_cli_mcp_path: Path = Path.home() / ".gemini" / "antigravity-cli" / "mcp_config.json"
     antigravity_ide_mcp_path: Path = Path.home() / ".gemini" / "antigravity" / "mcp_config.json"
+    opencode_config_path: Path = Path.home() / ".config" / "opencode" / "opencode.json"
+    claude_mcp_path: Path = Path.home() / "AppData" / "Roaming" / "Claude" / "claude_desktop_config.json"
     fleet_registry_path: Path = Path("D:/Dev/repos/mcp-central-docs/operations/fleet-registry.json")
     default_source: str = "cursor"
     default_target: str = "gemini"

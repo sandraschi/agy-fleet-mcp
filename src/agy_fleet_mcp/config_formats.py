@@ -126,4 +126,3 @@ def build_config_for_location(
         opencode_mcp[name] = _canonical_to_opencode_entry(name, entry, prior)
     base["mcp"] = opencode_mcp
     return base
-

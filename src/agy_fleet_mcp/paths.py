@@ -7,8 +7,8 @@ from pathlib import Path
 
 from agy_fleet_mcp.config import Settings
 
-SOURCE_IDS = ("cursor", "gemini", "antigravity_cli", "antigravity_ide", "project", "registry")
-TARGET_IDS = ("cursor", "gemini", "antigravity_cli", "antigravity_ide", "project")
+SOURCE_IDS = ("cursor", "gemini", "antigravity_cli", "antigravity_ide", "project", "opencode", "claude", "registry")
+TARGET_IDS = ("cursor", "gemini", "antigravity_cli", "antigravity_ide", "project", "opencode", "claude")
 
 
 @dataclass(frozen=True)
@@ -31,7 +31,9 @@ def resolve_location(location_id: str, settings: Settings, workspace: Path | Non
         "gemini": ("Gemini / Antigravity shared MCP", settings.gemini_mcp_path, "mcp_json"),
         "antigravity_cli": ("Antigravity CLI MCP", settings.antigravity_cli_mcp_path, "mcp_json"),
         "antigravity_ide": ("Antigravity IDE MCP", settings.antigravity_ide_mcp_path, "mcp_json"),
+        "opencode": ("OpenCode MCP", settings.opencode_config_path, "opencode_json"),
         "project": ("Project-local Antigravity CLI", _project_mcp_path(workspace), "mcp_json"),
+        "claude": ("Claude Desktop", settings.claude_mcp_path, "mcp_json"),
         "registry": ("Fleet registry catalog", settings.fleet_registry_path, "fleet_registry"),
     }
     if location_id not in mapping:

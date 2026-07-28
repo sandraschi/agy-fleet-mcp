@@ -10,11 +10,14 @@ from fastmcp import FastMCP
 from fastmcp.server.providers.skills import SkillsDirectoryProvider
 
 from agy_fleet_mcp.config import Settings, load_settings
-from agy_fleet_mcp.config_store import extract_servers, read_json, server_summary, wrap_servers, write_json
+from agy_fleet_mcp.config_formats import build_config_for_location, extract_servers_for_location
+from agy_fleet_mcp.config_store import read_json, server_summary, write_json
 from agy_fleet_mcp.fleet_registry import registry_summary
 from agy_fleet_mcp.paths import list_locations, resolve_location
 from agy_fleet_mcp.sync import apply_tool_budget, diff_servers, sync_configs
 from agy_fleet_mcp.validate import agy_binary_status, validate_servers
+
+LocationId = Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project", "opencode", "claude"]
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +25,7 @@ mcp = FastMCP(
     "agy-fleet-mcp",
     instructions=(
         "Fleet MCP bridge for Antigravity CLI (agy). "
-        "Sync, diff, and validate MCP server configs between Cursor, Gemini, and Antigravity paths. "
+        "Sync, diff, and validate MCP server configs between Cursor, Gemini, Antigravity, and OpenCode paths. "
         "Distinct from PyPI agy-mcp (which exposes agy as MCP tools). "
         "Use agy_fleet_sync to push Cursor fleet entries into ~/.gemini/config/mcp_config.json "
         "or project .antigravitycli/mcp_config.json."
@@ -73,7 +76,7 @@ def agy_fleet_list_locations(workspace: str = "") -> dict[str, Any]:
 
 @mcp.tool()
 def agy_fleet_list_servers(
-    source: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "cursor",
+    source: LocationId = "cursor",
     workspace: str = "",
 ) -> dict[str, Any]:
     """List MCP servers defined in a config source."""
@@ -82,7 +85,8 @@ def agy_fleet_list_servers(
     loc = resolve_location(source, settings, ws)
     if not loc.exists:
         return {"source": source, "path": str(loc.path), "exists": False, "servers": []}
-    servers = extract_servers(read_json(loc.path))
+    data = read_json(loc.path)
+    servers = extract_servers_for_location(source, data)
     summaries = [server_summary(name, entry) for name, entry in sorted(servers.items()) if isinstance(entry, dict)]
     enabled = sum(1 for item in summaries if not item["disabled"])
     return {
@@ -98,8 +102,8 @@ def agy_fleet_list_servers(
 
 @mcp.tool()
 def agy_fleet_diff(
-    left: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "cursor",
-    right: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "gemini",
+    left: LocationId = "cursor",
+    right: LocationId = "gemini",
     workspace: str = "",
 ) -> dict[str, Any]:
     """Diff MCP server sets between two config locations."""
@@ -107,8 +111,10 @@ def agy_fleet_diff(
     ws = Path(workspace).resolve() if workspace else None
     left_loc = resolve_location(left, settings, ws)
     right_loc = resolve_location(right, settings, ws)
-    left_servers = extract_servers(read_json(left_loc.path)) if left_loc.exists else {}
-    right_servers = extract_servers(read_json(right_loc.path)) if right_loc.exists else {}
+    left_data = read_json(left_loc.path) if left_loc.exists else {}
+    right_data = read_json(right_loc.path) if right_loc.exists else {}
+    left_servers = extract_servers_for_location(left_loc.id, left_data) if left_loc.exists else {}
+    right_servers = extract_servers_for_location(right_loc.id, right_data) if right_loc.exists else {}
     return {
         "left": {"id": left_loc.id, "path": str(left_loc.path), "exists": left_loc.exists},
         "right": {"id": right_loc.id, "path": str(right_loc.path), "exists": right_loc.exists},
@@ -118,8 +124,8 @@ def agy_fleet_diff(
 
 @mcp.tool()
 def agy_fleet_sync(
-    source: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "cursor",
-    target: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "gemini",
+    source: LocationId = "cursor",
+    target: LocationId = "gemini",
     mode: Literal["merge", "replace"] = "merge",
     dry_run: bool = True,
     only_enabled: bool = False,
@@ -145,7 +151,7 @@ def agy_fleet_sync(
 
 @mcp.tool()
 def agy_fleet_validate(
-    source: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "cursor",
+    source: LocationId = "cursor",
     workspace: str = "",
 ) -> dict[str, Any]:
     """Validate MCP server commands and transports for a config source."""
@@ -154,7 +160,8 @@ def agy_fleet_validate(
     loc = resolve_location(source, settings, ws)
     if not loc.exists:
         return {"source": source, "path": str(loc.path), "exists": False, "validation": None}
-    servers = extract_servers(read_json(loc.path))
+    data = read_json(loc.path)
+    servers = extract_servers_for_location(source, data)
     return {
         "source": source,
         "path": str(loc.path),
@@ -173,7 +180,7 @@ def agy_fleet_registry() -> dict[str, Any]:
 
 @mcp.tool()
 def agy_fleet_apply_tool_budget(
-    source: Literal["cursor", "gemini", "antigravity_cli", "antigravity_ide", "project"] = "gemini",
+    source: LocationId = "gemini",
     max_enabled: int = 50,
     priority: list[str] | None = None,
     dry_run: bool = True,
@@ -186,12 +193,14 @@ def agy_fleet_apply_tool_budget(
     if not loc.exists:
         return {"source": source, "path": str(loc.path), "exists": False, "error": "config not found"}
 
-    servers = extract_servers(read_json(loc.path))
+    data = read_json(loc.path)
+    servers = extract_servers_for_location(source, data)
     budget = apply_tool_budget(servers, max_enabled=max_enabled, priority=priority)
 
     write_result = None
     if not dry_run:
-        backup_path = write_json(loc.path, wrap_servers(budget["servers"]), backup=settings.backup_on_write)
+        payload = build_config_for_location(loc.id, servers=budget["servers"], original=data)
+        backup_path = write_json(loc.path, payload, backup=settings.backup_on_write)
         write_result = {"written": str(loc.path), "backup": str(backup_path) if backup_path else None}
 
     return {
