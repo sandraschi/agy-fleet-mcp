@@ -27,7 +27,7 @@
         "icon": ["icons/icon.png", "icons/icon.ico"],
         "resources": [
             "resources/agy-fleet-mcp-backend.exe",
-            "resources/.env"],
+            "resources/.env.example"],
         "windows": {
             "webviewInstallMode": { "type": "skip" },
             "nsis": {
@@ -38,6 +38,7 @@
     },
     "plugins": {}
 }
+
 
 
 
