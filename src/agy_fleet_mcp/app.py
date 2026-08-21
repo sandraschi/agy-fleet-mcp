@@ -6,9 +6,10 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from agy_fleet_mcp import __version__
 from agy_fleet_mcp.config import load_settings
 from agy_fleet_mcp.server import mcp
-from agy_fleet_mcp.startup_probe import run_startup_probes
+from agy_fleet_mcp.startup_probe import pipeline_liveness, run_startup_probes
 
 mcp_http = mcp.http_app(path="/")
 
@@ -21,10 +22,16 @@ async def app_lifespan(app: FastAPI):
         yield
 
 
-app = FastAPI(title="agy-fleet-mcp", version="0.1.0", lifespan=app_lifespan)
+app = FastAPI(title="agy-fleet-mcp", version=__version__, lifespan=app_lifespan)
 app.mount("/mcp", mcp_http)
 
 
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok", "service": "agy-fleet-mcp"}
+
+
+@app.get("/pipeline/liveness")
+async def liveness() -> dict[str, object]:
+    """Readiness payload for fleet-agent / orchestrator probes."""
+    return pipeline_liveness(load_settings())

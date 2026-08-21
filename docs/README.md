@@ -23,6 +23,7 @@ Staged docs per fleet README structure. Short entry: [../README.md](../README.md
 | [TOOLS.md](TOOLS.md) | MCP tool reference |
 | [FASTMCP_FEATURES.md](FASTMCP_FEATURES.md) | Transport, skills |
 | [FLEET_INTEGRATION.md](FLEET_INTEGRATION.md) | Registry, fleet-agent |
+| [FLEET_AGENT_AUTOSYNC.md](FLEET_AGENT_AUTOSYNC.md) | fleet-agent auto-sync recipe |
 
 ## Operations
 

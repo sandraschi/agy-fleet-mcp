@@ -1,24 +1,25 @@
 # Status — agy-fleet-mcp
 
-**Version:** 0.1.0  
-**Last updated:** 2026-06-09  
+**Version:** 0.2.0  
+**Last updated:** 2026-08-21  
 **Maturity:** Beta — config tools shipped; HTTP secondary to stdio
 
 ## Working
 
-- 8 MCP tools (list, diff, sync, validate, registry, budget)
-- Stdio + HTTP (`/mcp`, `/health`)
+- 9 MCP tools (list, diff, sync, validate, registry, budget, pipeline liveness)
+- Stdio + HTTP (`/mcp`, `/health`, `/pipeline/liveness`)
 - Merge/replace sync with dry-run default + backup
-- Tests: paths, config store, sync
+- `pipeline_liveness` REST + MCP tool for fleet-agent probes
+- Tests: paths, config store, sync, liveness
 - MCPB manifest + assets + `just mcpb-pack`
 - Fleet registry + MCD project page
 - Port **10825** (avatar collision resolved)
 
-## Planned (0.2.0)
+## Planned (0.3.0)
 
-- `pipeline_liveness` REST + MCP tool
 - GitHub MCPB release
-- fleet-agent auto-sync recipe doc
+- Watch mode — auto re-sync on `~/.cursor/mcp.json` change
+- Project-local `.antigravitycli/mcp_config.json` generation from registry subset
 
 ## Blockers
 

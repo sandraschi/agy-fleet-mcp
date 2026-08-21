@@ -14,6 +14,7 @@ from agy_fleet_mcp.config_formats import build_config_for_location, extract_serv
 from agy_fleet_mcp.config_store import read_json, server_summary, write_json
 from agy_fleet_mcp.fleet_registry import registry_summary
 from agy_fleet_mcp.paths import list_locations, resolve_location
+from agy_fleet_mcp.startup_probe import pipeline_liveness
 from agy_fleet_mcp.sync import apply_tool_budget, diff_servers, sync_configs
 from agy_fleet_mcp.validate import agy_binary_status, validate_servers
 
@@ -212,3 +213,9 @@ def agy_fleet_apply_tool_budget(
         "newly_disabled": budget["newly_disabled"],
         "write": write_result,
     }
+
+
+@mcp.tool()
+def agy_fleet_pipeline_liveness() -> dict[str, Any]:
+    """Report pipeline liveness for fleet-agent health probes (config presence, agy, budget)."""
+    return pipeline_liveness(_settings())

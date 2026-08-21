@@ -5,14 +5,14 @@
 ## Identity
 
 - **Name:** agy-fleet-mcp
-- **Version:** 0.1.0
+- **Version:** 0.2.0
 - **Stack:** FastMCP 3.2+, Python 3.11+, uv, pydantic-settings
 - **Role:** Config plane — MCP JSON sync for Antigravity CLI
 - **Not:** agy-mcp (PyPI) — that exposes agy as MCP tools
 - **Transports:** stdio (default), HTTP (`--serve`, `/mcp` on **10825**)
 - **Changelog:** `CHANGELOG.md`
 
-## Tool surface (8 tools)
+## Tool surface (9 tools)
 
 | Tool | Purpose |
 |------|---------|
@@ -24,6 +24,7 @@
 | `agy_fleet_validate` | Command validation + `agy` binary status |
 | `agy_fleet_registry` | Read fleet-registry.json summary |
 | `agy_fleet_apply_tool_budget` | Cap enabled servers (default 50) |
+| `agy_fleet_pipeline_liveness` | `ready`/`degraded` probe for fleet-agent |
 
 ## Config location IDs
 
@@ -59,6 +60,7 @@
 | Endpoint | Purpose |
 |----------|---------|
 | `GET /health` | `{"status":"ok","service":"agy-fleet-mcp"}` |
+| `GET /pipeline/liveness` | `ready`/`degraded` probe (config presence, agy, registry, budget) |
 | `POST /mcp` | Streamable HTTP MCP |
 
 ## MCPB / Claude Desktop
@@ -74,7 +76,7 @@
 ## Fleet integrations
 
 - **fleet-registry.json** — `agy_fleet_registry`
-- **fleet-agent-mcp** — optional HTTP at `http://127.0.0.1:10825/mcp`
+- **fleet-agent-mcp** — optional HTTP at `http://127.0.0.1:10825/mcp`; probe `/pipeline/liveness`, recipe in `docs/FLEET_AGENT_AUTOSYNC.md`
 - **notebooklm-fleet-mcp** — separate; sync via Cursor config, not this tool
 
 ## Safety rules for agents

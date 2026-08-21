@@ -40,9 +40,15 @@ Registered in `mcp-central-docs/operations/fleet-registry.json`:
   "url": "http://127.0.0.1:10825/mcp",
   "description": "agy-fleet-mcp — Antigravity MCP config sync/diff/validate",
   "category": "orchestration",
-  "key_tools": ["agy_fleet_sync", "agy_fleet_diff", "agy_fleet_validate"]
+  "key_tools": ["agy_fleet_sync", "agy_fleet_diff", "agy_fleet_validate", "agy_fleet_pipeline_liveness"]
 }
 ```
+
+## Pipeline liveness
+
+`GET /pipeline/liveness` (or `agy_fleet_pipeline_liveness`) reports `ready | degraded` with
+per-check detail (config presence, agy on PATH, registry, budget). Use it as a fleet-agent
+readiness gate before syncing. Full wiring: **[FLEET_AGENT_AUTOSYNC.md](FLEET_AGENT_AUTOSYNC.md)**.
 
 ## Related fleet repos
 

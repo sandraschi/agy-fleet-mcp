@@ -1,7 +1,7 @@
 {
   "manifest_version": "0.2",
   "name": "agy-fleet-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "FastMCP 3.2 fleet bridge — sync MCP servers into Antigravity CLI and Gemini config paths.",
   "author": {
     "name": "Sandra Schieder"
@@ -35,6 +35,7 @@
     { "name": "agy_fleet_sync", "description": "Sync MCP servers between configs" },
     { "name": "agy_fleet_validate", "description": "Validate server commands and agy binary" },
     { "name": "agy_fleet_registry", "description": "Read fleet-registry.json" },
-    { "name": "agy_fleet_apply_tool_budget", "description": "Cap enabled servers for Antigravity" }
+    { "name": "agy_fleet_apply_tool_budget", "description": "Cap enabled servers for Antigravity" },
+    { "name": "agy_fleet_pipeline_liveness", "description": "Report config/agy/budget liveness for probes" }
   ]
 }

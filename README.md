@@ -11,7 +11,7 @@ Fleet MCP **config bridge** for **Antigravity CLI** (`agy`) — sync Cursor flee
 
 **Not** [agy-mcp](https://pypi.org/project/agy-mcp/) on PyPI — opposite direction.
 
-**v0.1.0** · FastMCP 3.2 · [CHANGELOG](CHANGELOG.md)
+**v0.2.0** · FastMCP 3.2 · [CHANGELOG](CHANGELOG.md)
 
 ---
 
@@ -33,6 +33,7 @@ Fleet MCP **config bridge** for **Antigravity CLI** (`agy`) — sync Cursor flee
 - **Diff & validate** — preview drift; check commands and `agy` on PATH
 - **Tool budget** — disable servers beyond Antigravity's ~50 enabled limit
 - **Fleet registry** — read `fleet-registry.json` catalog from MCP
+- **Pipeline liveness** — `GET /pipeline/liveness` + MCP tool for fleet-agent probes
 - **Dual transport** — stdio (Cursor) or HTTP MCP on **10825**
 - **Safe writes** — `dry_run=true` default; JSON backup on write
 

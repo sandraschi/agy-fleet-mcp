@@ -1,13 +1,3 @@
-
-## [Unreleased] — 2026-06-14
-
-### Added
-- Tauri 2.0 native wrapper with `bundle.resources` + `std::process::Command`
-- PyInstaller frozen backend embedded in NSIS installer
-- CUA-NSIS smoke test (`scripts/cua-smoke.py`, `scripts/cua-nsis-config.json`)
-- `just cua-nsis-test` recipe
-- Tauri CORS: `tauri://localhost` origins for WebView API access
-- `GET /api/v1/diagnostics` endpoint for CUA verification
 # Changelog
 
 All notable changes to **agy-fleet-mcp** are documented here.
@@ -27,6 +17,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `README.md` — fleet short form with TOC and doc table.
 - `fleet-registry.json` — port **10825**.
 - `operations/WEBAPP_PORTS.md` — **10825** registered.
+
+## [0.2.0] — 2026-08-21
+
+### Added
+- **`agy_fleet_pipeline_liveness`** MCP tool — reports `ready | degraded` with per-check detail (config presence, agy on PATH, fleet registry, enabled-server budget).
+- **`GET /pipeline/liveness`** REST endpoint for fleet-agent / orchestrator readiness probes.
+- **`docs/FLEET_AGENT_AUTOSYNC.md`** — fleet-agent auto-sync recipe (dry-run-first workflow + safety rules).
+
+### Changed
+- Version bumped to **0.2.0**.
+- `app.py` version sourced from package `__version__`.
 
 ## [0.1.0] — 2026-06-09
 

@@ -71,6 +71,11 @@ No parameters. Reads `FLEET_REGISTRY_PATH` and returns summary (ids, ports, cate
 
 Sets `disabled: true` on servers beyond budget.
 
+## agy_fleet_pipeline_liveness
+
+No parameters. Reports `status: ready | degraded` with per-check detail (config presence,
+agy on PATH, fleet registry, enabled-server budget). Use for fleet-agent readiness probes.
+
 ## Source / target IDs
 
 `cursor` · `gemini` · `antigravity_cli` · `antigravity_ide` · `project`

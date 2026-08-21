@@ -1,7 +1,7 @@
 # agy-fleet-mcp — Product Requirements Document
 
-**Status:** ACTIVE (v0.1.0)  
-**Package version:** **0.1.0** (`pyproject.toml`)  
+**Status:** ACTIVE (v0.2.0)  
+**Package version:** **0.2.0** (`pyproject.toml`)  
 **Owner:** Sandra Schieder  
 **Port:** **10825** (HTTP MCP + `/health`; stdio primary)  
 **Category:** Command / config plane
@@ -56,10 +56,10 @@ Repo name **`agy-fleet-mcp`** avoids PyPI `agy-mcp` confusion.
 - **REQ-009:** `GET /health` on HTTP mode.
 - **REQ-010:** Bundled skill `skill://agy-fleet`.
 - **REQ-011:** Cursor install via `install-mcp.ps1`.
+- **REQ-020:** `pipeline_liveness` REST + MCP tool for fleet-agent probes.
 
 ### Functional — 🔄 Planned
 
-- **REQ-020:** `pipeline_liveness` endpoint for fleet-agent probes.
 - **REQ-021:** Glass dashboard (low priority — config plane is tool-first).
 - **REQ-022:** Watch mode — re-sync on `~/.cursor/mcp.json` change.
 - **REQ-023:** Generate project `.antigravitycli/mcp_config.json` from registry subset.
