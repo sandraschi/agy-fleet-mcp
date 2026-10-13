@@ -48,7 +48,7 @@ def agy_fleet_help() -> dict[str, str]:
     return {
         "package": "agy-fleet-mcp",
         "purpose": "Sync and manage MCP fleet configs for Antigravity CLI consumption",
-        "not_this": "agy-mcp on PyPI wraps agy as MCP tools for Cursor — opposite direction",
+        "not_this": "agy-mcp on PyPI wraps agy as MCP tools for Cursor - opposite direction",
         "default_source": "cursor",
         "default_target": "gemini",
         "docs": "See README.md and docs/FLEET_INTEGRATION.md in the repo",

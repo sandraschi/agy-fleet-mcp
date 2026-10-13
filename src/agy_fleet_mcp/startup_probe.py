@@ -82,7 +82,7 @@ async def run_startup_probes(settings: Settings) -> dict[str, object]:
     if missing:
         log.warning("STARTUP PROBE: missing config locations: %s", ", ".join(missing))
     if not agy["agy_on_path"]:
-        log.warning("STARTUP PROBE: agy CLI not on PATH — sync still works; agy runtime not detected")
+        log.warning("STARTUP PROBE: agy CLI not on PATH - sync still works; agy runtime not detected")
 
     registry_exists = settings.fleet_registry_path.exists()
     if not registry_exists:
